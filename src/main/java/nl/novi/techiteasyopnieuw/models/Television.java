@@ -22,10 +22,10 @@ public class Television {
     private String brand;
    private String name;
     private Double price;
-    private Double availableSize;
-    private Double refreshRate;
-    private String screenType;
-    private String screenQuality;
+    private AvailableSize availableSize;
+    private RefreshRate refreshRate;
+    private ScreenType screenType;
+    private ScreenQuality screenQuality;
     private Boolean smartTv;
     private Boolean wifi;
     private Boolean voiceControl;
@@ -34,11 +34,19 @@ public class Television {
     private Boolean ambiLight;
     private Integer originalStock;
 
+    //bonusopdracht variabele
+
+
+
+    private Integer dateOfSell;
+    private Integer dateOfPurchase;
+
 
     //default constructor
     public Television(){}
 
-    public Television(Long id, String type, String brand, String name, Double price, Double availableSize, Double refreshRate, String screenType, String screenQuality, Boolean smartTv, Boolean wifi, Boolean voiceControl, Boolean hdr, Boolean bluetooth, Boolean ambiLight, Integer originalStock, Integer sold) {
+    public Television(Long id, String type, String brand, String name, Double price, AvailableSize availableSize, RefreshRate refreshRate, ScreenType screenType, ScreenQuality screenQuality, Boolean smartTv, Boolean wifi, Boolean voiceControl,
+                      Boolean hdr, Boolean bluetooth, Boolean ambiLight, Integer originalStock, Integer sold, Integer dateOfSell, Integer dateOfPurchase) {
         this.id = id;
         this.type = type;
         this.brand = brand;
@@ -56,6 +64,8 @@ public class Television {
         this.ambiLight = ambiLight;
         this.originalStock = originalStock;
         this.sold = sold;
+        this.dateOfSell = dateOfSell;
+        this.dateOfPurchase = dateOfPurchase;
     }
 
     private Integer sold;
@@ -100,35 +110,35 @@ public class Television {
         this.price = price;
     }
 
-    public Double getAvailableSize() {
+    public AvailableSize getAvailableSize() {
         return availableSize;
     }
 
-    public void setAvailableSize(Double availableSize) {
+    public void setAvailableSize(AvailableSize availableSize) {
         this.availableSize = availableSize;
     }
 
-    public Double getRefreshRate() {
+    public RefreshRate getRefreshRate() {
         return refreshRate;
     }
 
-    public void setRefreshRate(Double refreshRate) {
+    public void setRefreshRate(RefreshRate refreshRate) {
         this.refreshRate = refreshRate;
     }
 
-    public String getScreenType() {
+    public ScreenType getScreenType() {
         return screenType;
     }
 
-    public void setScreenType(String screenType) {
+    public void setScreenType(ScreenType screenType) {
         this.screenType = screenType;
     }
 
-    public String getScreenQuality() {
+    public ScreenQuality getScreenQuality() {
         return screenQuality;
     }
 
-    public void setScreenQuality(String screenQuality) {
+    public void setScreenQuality(ScreenQuality screenQuality) {
         this.screenQuality = screenQuality;
     }
 
@@ -194,5 +204,21 @@ public class Television {
 
     public void setSold(Integer sold) {
         this.sold = sold;
+    }
+
+    public Integer getDateOfSell() {
+        return dateOfSell;
+    }
+
+    public void setDateOfSell(Integer dateOfSell) {
+        this.dateOfSell = dateOfSell;
+    }
+
+    public Integer getDateOfPurchase() {
+        return dateOfPurchase;
+    }
+
+    public void setDateOfPurchase(Integer dateOfPurchase) {
+        this.dateOfPurchase = dateOfPurchase;
     }
 }

@@ -22,6 +22,7 @@ public class TelevisionController {
 
     @GetMapping("/televisions")
     public ResponseEntity<Object> getAllTelevisions(){
+
         return ResponseEntity.ok("televisions");
     }
 
