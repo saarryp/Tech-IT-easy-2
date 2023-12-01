@@ -14,7 +14,7 @@ import java.util.Optional;
 public class TelevisionController {
 
 
-    private final TelevisionRepository televisionRepository;
+   @Autowired private final TelevisionRepository televisionRepository;
     public TelevisionController(TelevisionRepository televisionRepository) {
         this.televisionRepository = televisionRepository;
     }

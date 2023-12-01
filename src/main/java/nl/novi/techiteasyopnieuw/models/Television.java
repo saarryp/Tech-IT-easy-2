@@ -1,11 +1,8 @@
 package nl.novi.techiteasyopnieuw.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+
+import java.time.LocalDate;
 
 //@Getter
 //@Setter
@@ -22,6 +19,7 @@ public class Television {
     private String brand;
    private String name;
     private Double price;
+    @Enumerated(EnumType.STRING)
     private AvailableSize availableSize;
     private RefreshRate refreshRate;
     private ScreenType screenType;
@@ -38,15 +36,15 @@ public class Television {
 
 
 
-    private Integer dateOfSell;
-    private Integer dateOfPurchase;
+    private LocalDate dateOfSell;
+    private LocalDate dateOfPurchase;
 
 
     //default constructor
     public Television(){}
 
     public Television(Long id, String type, String brand, String name, Double price, AvailableSize availableSize, RefreshRate refreshRate, ScreenType screenType, ScreenQuality screenQuality, Boolean smartTv, Boolean wifi, Boolean voiceControl,
-                      Boolean hdr, Boolean bluetooth, Boolean ambiLight, Integer originalStock, Integer sold, Integer dateOfSell, Integer dateOfPurchase) {
+                      Boolean hdr, Boolean bluetooth, Boolean ambiLight, Integer originalStock, Integer sold, LocalDate dateOfSell, LocalDate dateOfPurchase) {
         this.id = id;
         this.type = type;
         this.brand = brand;
@@ -206,19 +204,19 @@ public class Television {
         this.sold = sold;
     }
 
-    public Integer getDateOfSell() {
+    public LocalDate getDateOfSell() {
         return dateOfSell;
     }
 
-    public void setDateOfSell(Integer dateOfSell) {
+    public void setDateOfSell(LocalDate dateOfSell) {
         this.dateOfSell = dateOfSell;
     }
 
-    public Integer getDateOfPurchase() {
+    public LocalDate getDateOfPurchase() {
         return dateOfPurchase;
     }
 
-    public void setDateOfPurchase(Integer dateOfPurchase) {
+    public void setDateOfPurchase(LocalDate dateOfPurchase) {
         this.dateOfPurchase = dateOfPurchase;
     }
 }
