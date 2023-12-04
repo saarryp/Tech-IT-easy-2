@@ -1,6 +1,10 @@
 package nl.novi.techiteasyopnieuw.models;
 
 import jakarta.persistence.*;
+import nl.novi.techiteasyopnieuw.models.enums.AvailableSize;
+import nl.novi.techiteasyopnieuw.models.enums.RefreshRate;
+import nl.novi.techiteasyopnieuw.models.enums.ScreenQuality;
+import nl.novi.techiteasyopnieuw.models.enums.ScreenType;
 
 import java.time.LocalDate;
 
