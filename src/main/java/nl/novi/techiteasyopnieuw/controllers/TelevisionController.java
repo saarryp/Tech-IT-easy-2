@@ -1,12 +1,17 @@
 package nl.novi.techiteasyopnieuw.controllers;
 
 
+import nl.novi.techiteasyopnieuw.dto.TelevisionDto;
 import nl.novi.techiteasyopnieuw.models.Television;
 import nl.novi.techiteasyopnieuw.repositories.TelevisionRepository;
+import nl.novi.techiteasyopnieuw.services.TelevisionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.Optional;
 
 
@@ -14,9 +19,9 @@ import java.util.Optional;
 public class TelevisionController {
 
 
-   @Autowired private final TelevisionRepository televisionRepository;
-    public TelevisionController(TelevisionRepository televisionRepository) {
-        this.televisionRepository = televisionRepository;
+   private final TelevisionService televisionService;
+    public TelevisionController(TelevisionService televisionService) {
+        this.televisionService = televisionService;
     }
 
 
@@ -26,19 +31,29 @@ public class TelevisionController {
         return ResponseEntity.ok("televisions");
     }
 
-    @GetMapping("televisions/{id}")
-    public ResponseEntity<Object> getOneTelevision(@PathVariable("id") Long id){
-        Optional<Television> savedTelevision = televisionRepository.findById(id);
-        return ResponseEntity.ok(savedTelevision.get());
-    }
+//    @GetMapping("televisions/{id}")
+//    public ResponseEntity<Object> getOneTelevision(@PathVariable("id") Long id){
+//        Optional<Television> savedTelevision = televisionRepository.findById(id);
+//        return ResponseEntity.ok(savedTelevision.get());
+//    }
 
 
     //deze ombouwen
     @PostMapping("/televisions")
-    public ResponseEntity<Television> addTelevision(@RequestBody Television television){
+    public ResponseEntity<TelevisionDto> addTelevision(@RequestBody TelevisionDto televisionDto){
 
-        Television savedTelevision = televisionRepository.save(television);
-        return ResponseEntity.created(null).body(savedTelevision);
+        TelevisionDto savedTelevision = televisionService.createTelevision(televisionDto);
+
+        //toevoegen Uri zodat je in de header in postman deze terug kan vinden
+        //bij elke postmapping is onderstaande Uri aanroep gebruikelijk
+
+        URI uri = URI.create(
+                ServletUriComponentsBuilder
+                        .fromCurrentRequest()
+                        .path("/" + savedTelevision.id)
+                        .toUriString());
+
+        return ResponseEntity.created(uri).body(savedTelevision);
     }
 
     @DeleteMapping("/televisions/{id}")
