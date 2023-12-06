@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -26,16 +27,16 @@ public class TelevisionController {
 
 
     @GetMapping("/televisions")
-    public ResponseEntity<Object> getAllTelevisions(){
+    public ResponseEntity<List<TelevisionDto>> getAllTelevisions(){
 
-        return ResponseEntity.ok("televisions");
+        return ResponseEntity.ok(televisionService.getAllTelevisions());
     }
 
-//    @GetMapping("televisions/{id}")
-//    public ResponseEntity<Object> getOneTelevision(@PathVariable("id") Long id){
-//        Optional<Television> savedTelevision = televisionRepository.findById(id);
-//        return ResponseEntity.ok(savedTelevision.get());
-//    }
+    @GetMapping("televisions/{id}")
+    public ResponseEntity<TelevisionDto> getOneTelevision(@PathVariable("id") Long id){
+       TelevisionDto televisionDto = televisionService.getTelevisionById(id);
+        return ResponseEntity.ok(televisionDto);
+    }
 
 
     //deze ombouwen
@@ -57,9 +58,15 @@ public class TelevisionController {
     }
 
     @DeleteMapping("/televisions/{id}")
-    public ResponseEntity<Object> deleteBook(@PathVariable int id) {
+    public ResponseEntity<Object> deleteTelevision(@PathVariable Long id) {
 
+            televisionService.deleteOneTelevision(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/televisions/{id}")
+    public ResponseEntity<TelevisionDto>updateTelevision(@PathVariable Long id) {
+        televisionService.add
     }
 
 }
