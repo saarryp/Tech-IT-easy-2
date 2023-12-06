@@ -5,9 +5,10 @@ import nl.novi.techiteasyopnieuw.models.enums.AvailableSize;
 import nl.novi.techiteasyopnieuw.models.enums.RefreshRate;
 import nl.novi.techiteasyopnieuw.models.enums.ScreenQuality;
 import nl.novi.techiteasyopnieuw.models.enums.ScreenType;
-import nl.novi.techiteasyopnieuw.services.TelevisionService;
 
-public class TelevisionDto {
+import java.time.LocalDate;
+
+public class TelevisionInputDto {
 
     public Long id;
     public String type;
@@ -26,5 +27,8 @@ public class TelevisionDto {
     public Boolean bluetooth;
     public Boolean ambiLight;
     public Integer originalStock;
-    }
+    public LocalDate dateOfSell;
+    public LocalDate dateOfPurchase;
+
+}
 

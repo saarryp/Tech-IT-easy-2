@@ -2,6 +2,7 @@ package nl.novi.techiteasyopnieuw.controllers;
 
 
 import nl.novi.techiteasyopnieuw.dto.TelevisionDto;
+import nl.novi.techiteasyopnieuw.dto.TelevisionInputDto;
 import nl.novi.techiteasyopnieuw.models.Television;
 import nl.novi.techiteasyopnieuw.repositories.TelevisionRepository;
 import nl.novi.techiteasyopnieuw.services.TelevisionService;
@@ -17,10 +18,13 @@ import java.util.Optional;
 
 
 @RestController
+@RequestMapping("televisions")
 public class TelevisionController {
 
 
    private final TelevisionService televisionService;
+
+   @Autowired
     public TelevisionController(TelevisionService televisionService) {
         this.televisionService = televisionService;
     }
@@ -57,7 +61,7 @@ public class TelevisionController {
         return ResponseEntity.created(uri).body(savedTelevision);
     }
 
-    @DeleteMapping("/televisions/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteTelevision(@PathVariable Long id) {
 
             televisionService.deleteOneTelevision(id);
@@ -65,8 +69,9 @@ public class TelevisionController {
     }
 
     @PutMapping("/televisions/{id}")
-    public ResponseEntity<TelevisionDto>updateTelevision(@PathVariable Long id) {
-        televisionService.add
+    public ResponseEntity<TelevisionDto>updateTelevision(@PathVariable Long id,
+                                                         @RequestBody TelevisionInputDto televisionInputDto) {
+        TelevisionDto updatedTelevision = televisionService.updateTelevisions(id, televisionInputDto);
+        return ResponseEntity.ok(updatedTelevision);
     }
-
 }

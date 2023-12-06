@@ -1,6 +1,7 @@
 package nl.novi.techiteasyopnieuw.services;
 
 import nl.novi.techiteasyopnieuw.dto.TelevisionDto;
+import nl.novi.techiteasyopnieuw.dto.TelevisionInputDto;
 import nl.novi.techiteasyopnieuw.exceptions.RecordNotFoundException;
 import nl.novi.techiteasyopnieuw.models.Television;
 import nl.novi.techiteasyopnieuw.repositories.TelevisionRepository;
@@ -113,6 +114,36 @@ public void deleteOneTelevision(Long id) {
 
 //nu een functie voor updaten van de televisies
 
+    public TelevisionDto updateTelevisions(Long id, TelevisionInputDto televisionInputDto) {
+        Optional<Television> existingTv = repos.findById(id);
+
+        if (existingTv.isPresent()) {
+            Television updatedTelevision = existingTv.get();
+            updatedTelevision.setType(televisionInputDto.getType());
+            updatedTelevision.setBrand(televisionInputDto.getBrand());
+            updatedTelevision.setName(televisionInputDto.getName());
+            updatedTelevision.setPrice(televisionInputDto.getPrice());
+            updatedTelevision.setAvailableSize(televisionInputDto.getAvailableSize());
+            updatedTelevision.setRefreshRate(televisionInputDto.getRefreshRate());
+            updatedTelevision.setScreenType(televisionInputDto.getScreenType());
+            updatedTelevision.setScreenQuality(televisionInputDto.getScreenQuality());
+            updatedTelevision.setSmartTv(televisionInputDto.getSmartTv());
+            updatedTelevision.setWifi(televisionInputDto.getWifi());
+            updatedTelevision.setVoiceControl(televisionInputDto.getVoiceControl());
+            updatedTelevision.setHdr(televisionInputDto.getHdr());
+            updatedTelevision.setBluetooth(televisionInputDto.getBluetooth());
+            updatedTelevision.setAmbiLight(televisionInputDto.getAmbiLight());
+            updatedTelevision.setOriginalStock(televisionInputDto.getOriginalStock());
 
 
-}
+            // Save the updated television back to the repository
+            repos.save(updatedTelevision);
+
+            // Convert and return the result as a DTO
+            return televisionToTelevisionDto(updatedTelevision);
+        } else {
+            throw new RecordNotFoundException("TV with id: " + id + " not found");
+        }
+    }
+
+    }
