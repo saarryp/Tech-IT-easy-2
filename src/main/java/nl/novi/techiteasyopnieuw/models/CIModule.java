@@ -1,9 +1,9 @@
 package nl.novi.techiteasyopnieuw.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name= "CIModule")
@@ -23,6 +23,8 @@ public class CIModule {
         this.price = price;
     }
 
+    @OneToMany(mappedBy = "CIModule")
+    private Set<Television>televisions = new HashSet<>();
 
     //default constructor maken iggv dat er niks instaat, eis van Java
     public CIModule(){

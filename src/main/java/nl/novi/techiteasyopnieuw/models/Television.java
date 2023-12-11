@@ -7,6 +7,8 @@ import nl.novi.techiteasyopnieuw.models.enums.ScreenQuality;
 import nl.novi.techiteasyopnieuw.models.enums.ScreenType;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 //@Getter
 //@Setter
@@ -38,12 +40,25 @@ public class Television {
 
     //bonusopdracht variabele
 
-
-
     private LocalDate dateOfSell;
     private LocalDate dateOfPurchase;
 
 
+    @OneToOne
+    private RemoteController remoteController;
+    @ManyToOne(fetch= FetchType.EAGER)
+
+    private CIModule CIModule;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "televisions_wallBrackets",
+            joinColumns = @JoinColumn
+            (name = "wallBrackets_id"),
+            inverseJoinColumns = @JoinColumn
+                    (name = "television_id")
+    )
+
+    private Set <WallBracket> wallBrackets = new HashSet<>();
     //default constructor
     public Television(){}
 

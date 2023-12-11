@@ -1,10 +1,10 @@
 package nl.novi.techiteasyopnieuw.models;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Wall Bracket")
@@ -26,6 +26,9 @@ public class WallBracket {
         this.name = name;
         this.price = price;
     }
+
+    @ManyToMany(mappedBy = "wallBrackets")
+    private Set<Television> televisions = new HashSet<>();
 
     public WallBracket(){
 

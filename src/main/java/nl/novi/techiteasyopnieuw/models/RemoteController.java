@@ -1,10 +1,7 @@
 package nl.novi.techiteasyopnieuw.models;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Remote Controller")
@@ -33,6 +30,9 @@ public class RemoteController {
     public RemoteController(){
 
     }
+//de televisionclass is de eigenaar dus moet MappedBy toegevoegd worden
+    @OneToOne(mappedBy = "remoteController")
+    private Television television;
 
     public Long getId() {
         return id;
