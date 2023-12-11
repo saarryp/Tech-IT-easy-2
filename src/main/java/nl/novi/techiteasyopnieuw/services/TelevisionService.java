@@ -1,14 +1,12 @@
 package nl.novi.techiteasyopnieuw.services;
 
-import nl.novi.techiteasyopnieuw.dto.TelevisionDto;
-import nl.novi.techiteasyopnieuw.dto.TelevisionInputDto;
+import nl.novi.techiteasyopnieuw.dto.television.TelevisionDto;
+import nl.novi.techiteasyopnieuw.dto.television.TelevisionInputDto;
 import nl.novi.techiteasyopnieuw.exceptions.RecordNotFoundException;
 import nl.novi.techiteasyopnieuw.models.Television;
 import nl.novi.techiteasyopnieuw.repositories.TelevisionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;

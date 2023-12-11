@@ -1,20 +1,16 @@
 package nl.novi.techiteasyopnieuw.controllers;
 
 
-import nl.novi.techiteasyopnieuw.dto.TelevisionDto;
-import nl.novi.techiteasyopnieuw.dto.TelevisionInputDto;
-import nl.novi.techiteasyopnieuw.models.Television;
-import nl.novi.techiteasyopnieuw.repositories.TelevisionRepository;
+import nl.novi.techiteasyopnieuw.dto.television.TelevisionDto;
+import nl.novi.techiteasyopnieuw.dto.television.TelevisionInputDto;
 import nl.novi.techiteasyopnieuw.services.TelevisionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -30,13 +26,13 @@ public class TelevisionController {
     }
 
 
-    @GetMapping("/televisions")
+    @GetMapping
     public ResponseEntity<List<TelevisionDto>> getAllTelevisions(){
 
         return ResponseEntity.ok(televisionService.getAllTelevisions());
     }
 
-    @GetMapping("televisions/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<TelevisionDto> getOneTelevision(@PathVariable("id") Long id){
        TelevisionDto televisionDto = televisionService.getTelevisionById(id);
         return ResponseEntity.ok(televisionDto);
@@ -44,7 +40,7 @@ public class TelevisionController {
 
 
     //deze ombouwen
-    @PostMapping("/televisions")
+    @PostMapping
     public ResponseEntity<TelevisionDto> addTelevision(@RequestBody TelevisionDto televisionDto){
 
         TelevisionDto savedTelevision = televisionService.createTelevision(televisionDto);
@@ -68,7 +64,7 @@ public class TelevisionController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/televisions/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<TelevisionDto>updateTelevision(@PathVariable Long id,
                                                          @RequestBody TelevisionInputDto televisionInputDto) {
         TelevisionDto updatedTelevision = televisionService.updateTelevisions(id, televisionInputDto);

@@ -1,14 +1,13 @@
-package nl.novi.techiteasyopnieuw.dto;
+package nl.novi.techiteasyopnieuw.dto.television;
 
 import nl.novi.techiteasyopnieuw.models.Television;
 import nl.novi.techiteasyopnieuw.models.enums.AvailableSize;
 import nl.novi.techiteasyopnieuw.models.enums.RefreshRate;
 import nl.novi.techiteasyopnieuw.models.enums.ScreenQuality;
 import nl.novi.techiteasyopnieuw.models.enums.ScreenType;
+import nl.novi.techiteasyopnieuw.services.TelevisionService;
 
-import java.time.LocalDate;
-
-public class TelevisionInputDto {
+public class TelevisionDto {
 
     public Long id;
     public String type;
@@ -27,8 +26,5 @@ public class TelevisionInputDto {
     public Boolean bluetooth;
     public Boolean ambiLight;
     public Integer originalStock;
-    public LocalDate dateOfSell;
-    public LocalDate dateOfPurchase;
-
-}
+    }
 
