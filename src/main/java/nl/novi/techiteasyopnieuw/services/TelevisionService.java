@@ -119,21 +119,21 @@ public void deleteOneTelevision(Long id) {
 
         if (existingTv.isPresent()) {
             Television updatedTelevision = existingTv.get();
-            updatedTelevision.setType(televisionInputDto.getType());
-            updatedTelevision.setBrand(televisionInputDto.getBrand());
-            updatedTelevision.setName(televisionInputDto.getName());
-            updatedTelevision.setPrice(televisionInputDto.getPrice());
-            updatedTelevision.setAvailableSize(televisionInputDto.getAvailableSize());
-            updatedTelevision.setRefreshRate(televisionInputDto.getRefreshRate());
-            updatedTelevision.setScreenType(televisionInputDto.getScreenType());
-            updatedTelevision.setScreenQuality(televisionInputDto.getScreenQuality());
-            updatedTelevision.setSmartTv(televisionInputDto.getSmartTv());
-            updatedTelevision.setWifi(televisionInputDto.getWifi());
-            updatedTelevision.setVoiceControl(televisionInputDto.getVoiceControl());
-            updatedTelevision.setHdr(televisionInputDto.getHdr());
-            updatedTelevision.setBluetooth(televisionInputDto.getBluetooth());
-            updatedTelevision.setAmbiLight(televisionInputDto.getAmbiLight());
-            updatedTelevision.setOriginalStock(televisionInputDto.getOriginalStock());
+            updatedTelevision.setType(televisionInputDto.type);
+            updatedTelevision.setBrand(televisionInputDto.brand);
+            updatedTelevision.setName(televisionInputDto.name);
+            updatedTelevision.setPrice(televisionInputDto.price);
+            updatedTelevision.setAvailableSize(televisionInputDto.availableSize);
+            updatedTelevision.setRefreshRate(televisionInputDto.refreshRate);
+            updatedTelevision.setScreenType(televisionInputDto.screenType);
+            updatedTelevision.setScreenQuality(televisionInputDto.screenQuality);
+            updatedTelevision.setSmartTv(televisionInputDto.smartTv);
+            updatedTelevision.setWifi(televisionInputDto.wifi);
+            updatedTelevision.setVoiceControl(televisionInputDto.voiceControl);
+            updatedTelevision.setHdr(televisionInputDto.hdr);
+            updatedTelevision.setBluetooth(televisionInputDto.bluetooth);
+            updatedTelevision.setAmbiLight(televisionInputDto.ambiLight);
+            updatedTelevision.setOriginalStock(televisionInputDto.originalStock);
 
 
             // Save the updated television back to the repository
