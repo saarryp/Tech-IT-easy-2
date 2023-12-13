@@ -1,6 +1,7 @@
 package nl.novi.techiteasyopnieuw.controllers;
 
 
+import nl.novi.techiteasyopnieuw.dto.id.IdInputDto;
 import nl.novi.techiteasyopnieuw.dto.television.TelevisionDto;
 import nl.novi.techiteasyopnieuw.dto.television.TelevisionInputDto;
 import nl.novi.techiteasyopnieuw.services.TelevisionService;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -65,9 +67,18 @@ public class TelevisionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TelevisionDto>updateTelevision(@PathVariable Long id,
+    public ResponseEntity<TelevisionDto>updateTelevision(@PathVariable("id") Long id,
                                                          @RequestBody TelevisionInputDto televisionInputDto) {
         TelevisionDto updatedTelevision = televisionService.updateTelevisions(id, televisionInputDto);
         return ResponseEntity.ok(updatedTelevision);
+    }
+
+
+    @PutMapping("/televisions/{id}/remotecontroller")
+    public  ResponseEntity<Object>assignRemoteControllerToTelevision(@PathVariable("id") Long id,
+                                                         @Valid @RequestBody IdInputDto input){
+      televisionService.assignRemoteControllerToTelevision(id, input.id);
+      return ResponseEntity.noContent().build();
+
     }
 }

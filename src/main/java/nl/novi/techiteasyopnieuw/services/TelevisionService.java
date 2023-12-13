@@ -1,9 +1,11 @@
 package nl.novi.techiteasyopnieuw.services;
 
+import nl.novi.techiteasyopnieuw.controllers.TelevisionController;
 import nl.novi.techiteasyopnieuw.dto.television.TelevisionDto;
 import nl.novi.techiteasyopnieuw.dto.television.TelevisionInputDto;
 import nl.novi.techiteasyopnieuw.exceptions.RecordNotFoundException;
 import nl.novi.techiteasyopnieuw.models.Television;
+import nl.novi.techiteasyopnieuw.repositories.RemoteControllerRepository;
 import nl.novi.techiteasyopnieuw.repositories.TelevisionRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -14,12 +16,15 @@ import java.util.Optional;
 
 @Service
 public class TelevisionService {
-    private final TelevisionRepository repos;
+    private final TelevisionRepository televisionRepository;
+    private final RemoteControllerRepository remoteControllerRepository;
 //constructor toevoegen om dependency injection uit te voeren
 
 
-    public TelevisionService(TelevisionRepository repos) {
-        this.repos = repos;
+    public TelevisionService(TelevisionRepository televisionRepository,
+                             RemoteControllerRepository remoteControllerRepository, RemoteControllerRepository remoteControllerRepository1) {
+        this.televisionRepository = televisionRepository;
+        this.remoteControllerRepository = remoteControllerRepository;
     }
 
     //functie ophalen van alle tv' + pas de Controller aan
@@ -31,7 +36,7 @@ public class TelevisionService {
     //alletv method
 
     public List<TelevisionDto> getAllTelevisions() {
-        List<Television> tvList = repos.findAll();
+        List<Television> tvList = televisionRepository.findAll();
         List<TelevisionDto> tvListDto = new ArrayList<>();
         //de nieuwe arraylist kan nu de nieuwe lijst opbergen in de DTO objects
         for (Television t : tvList) {
@@ -62,7 +67,7 @@ public class TelevisionService {
 
 
         //nu opslaan in de repos
-        repos.save(television);
+        televisionRepository.save(television);
         createTelevisionDto.id = television.getId();
         return createTelevisionDto;
     }
@@ -93,7 +98,7 @@ public class TelevisionService {
     }
 
     public TelevisionDto getTelevisionById(Long id) {
-        Optional<Television> tv = repos.findById(id);
+        Optional<Television> tv = televisionRepository.findById(id);
         if (tv.isPresent()) {
             return televisionToTelevisionDto(tv.get());
         } else {
@@ -104,7 +109,7 @@ public class TelevisionService {
 //
 public void deleteOneTelevision(Long id) {
     try {
-        repos.deleteById(id);
+        televisionRepository.deleteById(id);
     } catch (EmptyResultDataAccessException ex) {
         throw new RecordNotFoundException("TV with id: " + id + " not found");
     }
@@ -113,7 +118,7 @@ public void deleteOneTelevision(Long id) {
 //nu een functie voor updaten van de televisies
 
     public TelevisionDto updateTelevisions(Long id, TelevisionInputDto televisionInputDto) {
-        Optional<Television> existingTv = repos.findById(id);
+        Optional<Television> existingTv = televisionRepository.findById(id);
 
         if (existingTv.isPresent()) {
             Television updatedTelevision = existingTv.get();
@@ -135,7 +140,7 @@ public void deleteOneTelevision(Long id) {
 
 
             // Save the updated television back to the repository
-            repos.save(updatedTelevision);
+            televisionRepository.save(updatedTelevision);
 
             // Convert and return the result as a DTO
             return televisionToTelevisionDto(updatedTelevision);
@@ -143,5 +148,17 @@ public void deleteOneTelevision(Long id) {
             throw new RecordNotFoundException("TV with id: " + id + " not found");
         }
     }
+
+    public void assignRemoteControllerToTelevision(Long id, Long RemoteControllerId){
+    var optionalTelevision = televisionRepository.findById(id);
+    var optionalRemoteController = remoteControllerRepository.findById(RemoteControllerId);
+    if (optionalTelevision.isPresent() && optionalRemoteController.isPresent()){
+        var television = optionalTelevision.get();
+        var remoteController = optionalRemoteController.get();
+        television.setRemoteController(remoteController);
+        televisionRepository.save(television);
+    } else {
+        throw new RecordNotFoundException();
+    }}
 
     }
