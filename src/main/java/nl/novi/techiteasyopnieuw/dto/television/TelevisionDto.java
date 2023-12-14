@@ -1,5 +1,7 @@
 package nl.novi.techiteasyopnieuw.dto.television;
 
+import nl.novi.techiteasyopnieuw.dto.remotecontroller.RemoteControllerDto;
+import nl.novi.techiteasyopnieuw.models.RemoteController;
 import nl.novi.techiteasyopnieuw.models.Television;
 import nl.novi.techiteasyopnieuw.models.enums.AvailableSize;
 import nl.novi.techiteasyopnieuw.models.enums.RefreshRate;
@@ -26,5 +28,21 @@ public class TelevisionDto {
     public Boolean bluetooth;
     public Boolean ambiLight;
     public Integer originalStock;
+    public RemoteController remoteController;
+
+//    private RemoteControllerDto remoteControllerDto;
+//
+//    public RemoteControllerDto getRemoteControllerDto() {
+//        return remoteControllerDto;
+//    }
+//
+//    public void setRemoteControllerDto(RemoteControllerDto remoteControllerDto) {
+//        this.remoteControllerDto = remoteControllerDto;
     }
+
+
+
+    // Getter en setter voor remoteControllerDto
+
+//    }
 

@@ -64,6 +64,7 @@ public class TelevisionService {
         television.setBluetooth(createTelevisionDto.bluetooth);
         television.setAmbiLight(createTelevisionDto.ambiLight);
         television.setOriginalStock(createTelevisionDto.originalStock);
+        television.setRemoteController(createTelevisionDto.remoteController);
 
 
         //nu opslaan in de repos

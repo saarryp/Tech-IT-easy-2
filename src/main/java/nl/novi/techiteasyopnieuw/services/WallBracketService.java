@@ -13,7 +13,10 @@ public class WallBracketService {
 
     private final WallBracketRepository wallBracketRepos;
 
+    //constructor voor dependency injection voor wallbracketRepository
+
     public WallBracketService(WallBracketRepository wallBracketRepos){
+
         this.wallBracketRepos = wallBracketRepos;
     }
 
@@ -22,12 +25,20 @@ public class WallBracketService {
     //functie ophalen opslaan 1 remote
     //functie verwijderen
 
-//    public List<WallBracketDto> getAllWallBrackets(){
-//        List<WallBracket> wallBracketsList = wallBracketRepos.findAll();
-//        List<WallBracketDto> dtos= new ArrayList<>();
-//        for (WallBracket w : wallBracketList) {
-//           dtos.add(transferToDto(w));
-//        }
-//        return dtos;
-//    }
+    //nu alle wallbrackets ophalen en naar dto omzetten
+
+
+
+    public List<WallBracketDto> getAllWallBrackets(){
+        List<WallBracket> wallBracketList = wallBracketRepos.findAll();
+        List<WallBracketDto> dtos= new ArrayList<>();
+        for (WallBracket w : wallBracketList) {
+           dtos.add(transferToDto(w));
+        }
+        return dtos;
+    }
+
+    private WallBracketDto transferToDto(WallBracket wallBracket){
+        return null;
+    }
 }

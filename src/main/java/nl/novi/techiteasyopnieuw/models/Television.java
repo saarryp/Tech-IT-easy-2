@@ -48,7 +48,7 @@ public class Television {
     private RemoteController remoteController;
     @ManyToOne(fetch= FetchType.EAGER)
 
-    private CIModule CIModule;
+    private CIModule ciModule;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "televisions_wallBrackets",
