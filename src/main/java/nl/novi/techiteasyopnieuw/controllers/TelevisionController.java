@@ -24,7 +24,8 @@ public class TelevisionController {
 
    @Autowired
     public TelevisionController(TelevisionService televisionService) {
-        this.televisionService = televisionService;
+
+       this.televisionService = televisionService;
     }
 
 
