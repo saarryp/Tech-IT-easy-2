@@ -23,7 +23,7 @@ public class CIModule {
         this.price = price;
     }
 
-    @OneToMany(mappedBy = "CIModule")
+    @OneToMany(mappedBy = "ciModule")
     private Set<Television>televisions = new HashSet<>();
 
     //default constructor maken iggv dat er niks instaat, eis van Java
