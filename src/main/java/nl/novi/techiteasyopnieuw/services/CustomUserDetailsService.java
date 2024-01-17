@@ -20,7 +20,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     /*TODO inject userservice; gedaan */
     private final UserService userService;
 
-    @Autowired
     public CustomUserDetailsService(UserService userService) {
         this.userService = userService;
     }

@@ -9,8 +9,7 @@ import nl.novi.techiteasyopnieuw.utils.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-
+import static nl.novi.techiteasyopnieuw.config.SpringSecurityConfig.passwordEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,12 +22,10 @@ public class UserService {
     /*TODO inject de juiste repository: gedaan*/
 
     private final UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     public List<UserDto> getUsers() {
@@ -46,7 +43,7 @@ public class UserService {
         if (user.isPresent()){
             dto = fromUser(user.get());
         }else {
-            throw new userRepository(username);
+            throw new UsernameNotFoundException(username);
         }
         return dto;
     }
@@ -71,7 +68,7 @@ public class UserService {
     }
 
     public void updateUser(String username, UserDto newUser) {
-        if (!userRepository.existsById(username)) throw new UsernameNotFoundException();
+        if (!userRepository.existsById(username)) throw new UsernameNotFoundException(username);
         User user = userRepository.findById(username).get();
         user.setPassword(newUser.getPassword());
         userRepository.save(user);
@@ -119,7 +116,7 @@ public class UserService {
         var user = new User();
 
         user.setUsername(userDto.getUsername());
-        user.setPassword(userDto.getPassword()/*TODO encrypted password; done*/);
+        user.setPassword(passwordEncoder().encode(userDto.password));
         user.setEnabled(userDto.getEnabled());
         user.setApikey(userDto.getApikey());
         user.setEmail(userDto.getEmail());

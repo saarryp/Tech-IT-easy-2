@@ -2,10 +2,15 @@ package nl.novi.techiteasyopnieuw.controllers;
 
 
 import nl.novi.techiteasyopnieuw.dto.Roles.AuthenticationRequest;
+import nl.novi.techiteasyopnieuw.dto.Roles.AuthenticationResponse;
+import nl.novi.techiteasyopnieuw.utils.JwtUtil;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +22,19 @@ import java.security.Principal;
 public class AuthenticationController {
 
     /*TODO inject authentionManager, userDetailService en jwtUtil*/
+private final AuthenticationManager authenticationManager;
+private final UserDetailsService userDetailsService;
+private final JwtUtil jwtUtil;
+
+    public AuthenticationController(AuthenticationManager authenticationManager, UserDetailsService userDetailsService, JwtUtil jwtUtil) {
+        this.authenticationManager = authenticationManager;
+        this.userDetailsService = userDetailsService;
+        this.jwtUtil = jwtUtil;
+    }
 
     /*
-         Deze methode geeft de principal (basis user gegevens) terug van de ingelogde gebruiker
-     */
+             Deze methode geeft de principal (basis user gegevens) terug van de ingelogde gebruiker
+         */
     @GetMapping(value = "/authenticated")
     public ResponseEntity<Object> authenticated(Authentication authentication, Principal principal) {
         return ResponseEntity.ok().body(principal);
@@ -36,7 +50,6 @@ public class AuthenticationController {
         String password = authenticationRequest.getPassword();
 
         try {
-            JMXAuthenticator authenticationManager = null;
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
             );
@@ -48,7 +61,6 @@ public class AuthenticationController {
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(username);
 
-        CookieCsrfTokenRepository jwtUtil;
         final String jwt = jwtUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
