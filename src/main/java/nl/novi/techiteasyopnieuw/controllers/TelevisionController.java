@@ -1,49 +1,85 @@
 package nl.novi.techiteasyopnieuw.controllers;
 
 
-import nl.novi.techiteasyopnieuw.models.Television;
-import nl.novi.techiteasyopnieuw.repositories.TelevisionRepository;
+import nl.novi.techiteasyopnieuw.dto.id.IdInputDto;
+import nl.novi.techiteasyopnieuw.dto.television.TelevisionDto;
+import nl.novi.techiteasyopnieuw.dto.television.TelevisionInputDto;
+import nl.novi.techiteasyopnieuw.services.TelevisionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.Optional;
+import javax.validation.Valid;
+import java.net.URI;
+import java.util.List;
 
 
 @RestController
+@RequestMapping("televisions")
 public class TelevisionController {
 
 
-    private final TelevisionRepository televisionRepository;
-    public TelevisionController(TelevisionRepository televisionRepository) {
-        this.televisionRepository = televisionRepository;
+   private final TelevisionService televisionService;
+
+   @Autowired
+    public TelevisionController(TelevisionService televisionService) {
+
+       this.televisionService = televisionService;
     }
 
 
-    @GetMapping("/televisions")
-    public ResponseEntity<Object> getAllTelevisions(){
-        return ResponseEntity.ok("televisions");
+    @GetMapping
+    public ResponseEntity<List<TelevisionDto>> getAllTelevisions(){
+
+        return ResponseEntity.ok(televisionService.getAllTelevisions());
     }
 
-    @GetMapping("televisions/{id}")
-    public ResponseEntity<Object> getOneTelevision(@PathVariable("id") Long id){
-        Optional<Television> savedTelevision = televisionRepository.findById(id);
-        return ResponseEntity.ok(savedTelevision.get());
+    @GetMapping("/{id}")
+    public ResponseEntity<TelevisionDto> getOneTelevision(@PathVariable("id") Long id){
+       TelevisionDto televisionDto = televisionService.getTelevisionById(id);
+        return ResponseEntity.ok(televisionDto);
     }
 
 
     //deze ombouwen
-    @PostMapping("/televisions")
-    public ResponseEntity<Television> addTelevision(@RequestBody Television television){
+    @PostMapping
+    public ResponseEntity<TelevisionDto> addTelevision(@RequestBody TelevisionDto televisionDto){
 
-        Television savedTelevision = televisionRepository.save(television);
-        return ResponseEntity.created(null).body(savedTelevision);
+        TelevisionDto savedTelevision = televisionService.createTelevision(televisionDto);
+
+        //toevoegen Uri zodat je in de header in postman deze terug kan vinden
+        //bij elke postmapping is onderstaande Uri aanroep gebruikelijk
+
+        URI uri = URI.create(
+                ServletUriComponentsBuilder
+                        .fromCurrentRequest()
+                        .path("/" + savedTelevision.id)
+                        .toUriString());
+
+        return ResponseEntity.created(uri).body(savedTelevision);
     }
 
-    @DeleteMapping("/televisions/{id}")
-    public ResponseEntity<Object> deleteBook(@PathVariable int id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteTelevision(@PathVariable Long id) {
 
+            televisionService.deleteOneTelevision(id);
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<TelevisionDto>updateTelevision(@PathVariable("id") Long id,
+                                                         @RequestBody TelevisionInputDto televisionInputDto) {
+        TelevisionDto updatedTelevision = televisionService.updateTelevisions(id, televisionInputDto);
+        return ResponseEntity.ok(updatedTelevision);
+    }
+
+
+    @PutMapping("/televisions/{id}/remotecontroller")
+    public  ResponseEntity<Object>assignRemoteControllerToTelevision(@PathVariable("id") Long id,
+                                                         @Valid @RequestBody IdInputDto input){
+      televisionService.assignRemoteControllerToTelevision(id, input.id);
+      return ResponseEntity.noContent().build();
+
+    }
 }

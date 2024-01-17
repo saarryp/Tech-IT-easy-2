@@ -1,11 +1,14 @@
 package nl.novi.techiteasyopnieuw.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import nl.novi.techiteasyopnieuw.models.enums.AvailableSize;
+import nl.novi.techiteasyopnieuw.models.enums.RefreshRate;
+import nl.novi.techiteasyopnieuw.models.enums.ScreenQuality;
+import nl.novi.techiteasyopnieuw.models.enums.ScreenType;
+
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 //@Getter
 //@Setter
@@ -22,10 +25,11 @@ public class Television {
     private String brand;
    private String name;
     private Double price;
-    private Double availableSize;
-    private Double refreshRate;
-    private String screenType;
-    private String screenQuality;
+    @Enumerated(EnumType.STRING)
+    private AvailableSize availableSize;
+    private RefreshRate refreshRate;
+    private ScreenType screenType;
+    private ScreenQuality screenQuality;
     private Boolean smartTv;
     private Boolean wifi;
     private Boolean voiceControl;
@@ -34,11 +38,32 @@ public class Television {
     private Boolean ambiLight;
     private Integer originalStock;
 
+    //bonusopdracht variabele
 
+    private LocalDate dateOfSell;
+    private LocalDate dateOfPurchase;
+
+
+    @OneToOne
+    private RemoteController remoteController;
+    @ManyToOne(fetch= FetchType.EAGER)
+
+    private CIModule ciModule;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "televisions_wallBrackets",
+            joinColumns = @JoinColumn
+            (name = "wallBrackets_id"),
+            inverseJoinColumns = @JoinColumn
+                    (name = "television_id")
+    )
+
+    private Set <WallBracket> wallBrackets = new HashSet<>();
     //default constructor
     public Television(){}
 
-    public Television(Long id, String type, String brand, String name, Double price, Double availableSize, Double refreshRate, String screenType, String screenQuality, Boolean smartTv, Boolean wifi, Boolean voiceControl, Boolean hdr, Boolean bluetooth, Boolean ambiLight, Integer originalStock, Integer sold) {
+    public Television(Long id, String type, String brand, String name, Double price, AvailableSize availableSize, RefreshRate refreshRate, ScreenType screenType, ScreenQuality screenQuality, Boolean smartTv, Boolean wifi, Boolean voiceControl,
+                      Boolean hdr, Boolean bluetooth, Boolean ambiLight, Integer originalStock, Integer sold, LocalDate dateOfSell, LocalDate dateOfPurchase) {
         this.id = id;
         this.type = type;
         this.brand = brand;
@@ -56,6 +81,8 @@ public class Television {
         this.ambiLight = ambiLight;
         this.originalStock = originalStock;
         this.sold = sold;
+        this.dateOfSell = dateOfSell;
+        this.dateOfPurchase = dateOfPurchase;
     }
 
     private Integer sold;
@@ -100,35 +127,35 @@ public class Television {
         this.price = price;
     }
 
-    public Double getAvailableSize() {
+    public AvailableSize getAvailableSize() {
         return availableSize;
     }
 
-    public void setAvailableSize(Double availableSize) {
+    public void setAvailableSize(AvailableSize availableSize) {
         this.availableSize = availableSize;
     }
 
-    public Double getRefreshRate() {
+    public RefreshRate getRefreshRate() {
         return refreshRate;
     }
 
-    public void setRefreshRate(Double refreshRate) {
+    public void setRefreshRate(RefreshRate refreshRate) {
         this.refreshRate = refreshRate;
     }
 
-    public String getScreenType() {
+    public ScreenType getScreenType() {
         return screenType;
     }
 
-    public void setScreenType(String screenType) {
+    public void setScreenType(ScreenType screenType) {
         this.screenType = screenType;
     }
 
-    public String getScreenQuality() {
+    public ScreenQuality getScreenQuality() {
         return screenQuality;
     }
 
-    public void setScreenQuality(String screenQuality) {
+    public void setScreenQuality(ScreenQuality screenQuality) {
         this.screenQuality = screenQuality;
     }
 
@@ -194,5 +221,29 @@ public class Television {
 
     public void setSold(Integer sold) {
         this.sold = sold;
+    }
+
+    public LocalDate getDateOfSell() {
+        return dateOfSell;
+    }
+
+    public void setDateOfSell(LocalDate dateOfSell) {
+        this.dateOfSell = dateOfSell;
+    }
+
+    public LocalDate getDateOfPurchase() {
+        return dateOfPurchase;
+    }
+
+    public void setDateOfPurchase(LocalDate dateOfPurchase) {
+        this.dateOfPurchase = dateOfPurchase;
+    }
+
+    public RemoteController getRemoteController() {
+        return remoteController;
+    }
+
+    public void setRemoteController(RemoteController remoteController) {
+        this.remoteController = remoteController;
     }
 }
