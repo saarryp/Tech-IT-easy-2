@@ -7,29 +7,29 @@ import nl.novi.techiteasyopnieuw.models.User;
 import nl.novi.techiteasyopnieuw.repositories.UserRepository;
 import nl.novi.techiteasyopnieuw.utils.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.awt.AWTEventMulticaster;
+
 
 
 @Service
 public class UserService {
-    /*TODO inject de juiste repository*/
+    /*TODO inject de juiste repository: gedaan*/
 
     private final UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository){
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
-
-
-
 
     public List<UserDto> getUsers() {
         List<UserDto> collection = new ArrayList<>();
@@ -56,13 +56,13 @@ public class UserService {
     }
 
     public boolean userExists(String username) {
-        return username.existsById(username);
+        return userRepository.existsById(username);
     }
 
     public String createUser(UserDto userDto) {
         String randomString = RandomStringGenerator.generateAlphaNumeric(20);
         userDto.setApikey(randomString);
-        User newUser = userRepository.AWTEventMulticaster.save(toUser(userDto));
+        User newUser = userRepository.save(toUser(userDto));
         return newUser.getUsername();
     }
 
@@ -74,7 +74,7 @@ public class UserService {
         if (!userRepository.existsById(username)) throw new UsernameNotFoundException();
         User user = userRepository.findById(username).get();
         user.setPassword(newUser.getPassword());
-        userRepository.AWTEventMulticaster.save(user);
+        userRepository.save(user);
     }
 
     public Set<Authority> getAuthorities(String username) {
@@ -89,7 +89,7 @@ public class UserService {
         if (!userRepository.existsById(username)) throw new UsernameNotFoundException(username);
         User user = userRepository.findById(username).get();
         user.addAuthority(new Authority(username, authority));
-        userRepository.AWTEventMulticaster.save(user);
+        userRepository.save(user);
     }
 
     public void removeAuthority(String username, String authority) {
@@ -97,7 +97,7 @@ public class UserService {
         User user = userRepository.findById(username).get();
         Authority authorityToRemove = user.getAuthorities().stream().filter((a) -> a.getAuthority().equalsIgnoreCase(authority)).findAny().get();
         user.removeAuthority(authorityToRemove);
-        userRepository.AWTEventMulticaster.save(user);
+        userRepository.save(user);
     }
 
     public static UserDto fromUser(User user){
@@ -119,7 +119,7 @@ public class UserService {
         var user = new User();
 
         user.setUsername(userDto.getUsername());
-        user.setPassword(/*TODO encrypted password*/);
+        user.setPassword(userDto.getPassword()/*TODO encrypted password; done*/);
         user.setEnabled(userDto.getEnabled());
         user.setApikey(userDto.getApikey());
         user.setEmail(userDto.getEmail());

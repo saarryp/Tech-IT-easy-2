@@ -1,14 +1,12 @@
 package nl.novi.techiteasyopnieuw.models;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 
 /*TODO annotatie*/
+@Entity
 @IdClass(AuthorityKey.class)
 @Table(name = "authorities")
 

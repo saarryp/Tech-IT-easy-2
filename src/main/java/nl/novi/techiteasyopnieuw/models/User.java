@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-/*TODO annotatie*/
-@IdClass(UserId.class)
+/*TODO annotatie-gedaan*/
+@Entity
 @Table(name = "users")
 public class User {
 

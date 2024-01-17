@@ -1,6 +1,7 @@
 package nl.novi.techiteasyopnieuw.config;
 
 import jakarta.servlet.Filter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,8 +21,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
-    /*TODO inject customUserDetailService en jwtRequestFilter*/
+    /*TODO inject customUserDetailService en jwtRequestFilter; gedaan*/
 
+@Autowired
+private UserDetailsService customUserDetailsService;
+
+@Autowired
+private Filter jwtRequestFilter;
+
+    public SpringSecurityConfig(UserDetailsService customUserDetailsService, Filter jwtRequestFilter) {
+        this.customUserDetailsService = customUserDetailsService;
+        this.jwtRequestFilter = jwtRequestFilter;
+    }
 
     // PasswordEncoderBean. Deze kun je overal in je applicatie injecteren waar nodig.
     // Je kunt dit ook in een aparte configuratie klasse zetten.
@@ -33,7 +44,8 @@ public class SpringSecurityConfig {
 
     // Authenticatie met customUserDetailsService en passwordEncoder
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder passwordEncoder) throws Exception {
+    public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder passwordEncoder)
+            throws Exception {
         var auth = new DaoAuthenticationProvider();
         auth.setPasswordEncoder(passwordEncoder);
         UserDetailsService customUserDetailsService;
