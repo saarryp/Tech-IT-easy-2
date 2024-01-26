@@ -76,7 +76,7 @@ public class TelevisionService {
     public TelevisionDto televisionToTelevisionDto(Television television) {
         TelevisionDto televisionDto = new TelevisionDto();
         televisionDto.id = television.getId();
-        televisionDto.hdr = television.getHdr();
+        televisionDto.name = television.getName();
         televisionDto.brand = television.getBrand();
         televisionDto.price = television.getPrice();
         televisionDto.availableSize = television.getAvailableSize();
